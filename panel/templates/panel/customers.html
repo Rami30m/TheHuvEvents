@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/customers.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <img src="{% static 'img/LOGO.png' %}" alt="logo" class="logo">
+    <h1>The Hub</h1>
+</header>
+<main>
+<div class="container1">
+    <div class="container">
+        <button onclick="location.href='{% url 'lists' %}'" type="button" class="out">Назад</button>
+        <h4>Присутствуют: {{ count }}</h4>
+    </div>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Chang status</th>
+        </tr>
+        {% for customer in customers %}
+        <tr>
+            <td class="{{ customer.status }}">{{ customer.name }}</td>
+            <td class="{{ customer.status }}">{{ customer.email }}</td>
+            <td class="{{ customer.status }}">{{ customer.status }}</td>
+            <td>
+                <form action="{% url 'change_status' event.id customer.id %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="change-btn">Change</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+</main>
+<footer></footer>
+<script src="{% static 'js/customers.jsx' %}"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <img src="{% static 'img/LOGO.png' %}" alt="logo" class="logo">
+    <h1>The Hub</h1>
+</header>
+<main>
+
+    {% for event in events %}
+    {% if forloop.first or forloop.counter0|divisibleby:3 %}
+    <div class="row">
+        {% endif %}
+        <div class="event"
+             data-event-id="{{ event.id }}"
+             data-title="{{ event.title }}" data-description="{{ event.description }}" data-date="{{ event.date }}"
+             data-location="{{ event.location }}">
+            <img src="{{ event.image.url }}" alt="event" class="event-img">
+            <button class="event-btn" type="button" data-event-id="{{ event.id }}" id="{{ event.id }}">Запись</button>
+        </div>
+        {% if forloop.last or forloop.counter|divisibleby:3 %}
+    </div>
+    {% endif %}
+    {% empty %}
+    {% endfor %}
+</main>
+<div class="regEvent close" id="addForm">
+    <div class="EventForm">
+        <form class="Form1" id="Form1">
+            {% csrf_token %}
+            <div>
+                <h2 id="event-title"></h2>
+                <h3 id="close">✕</h3>
+            </div>
+            <p id="event-description" class="description"></p>
+            <p id="event-date"></p>
+            <p>Локация: </p>
+            <p id="event-location" class="location"></p>
+
+            <input type="hidden" id="event-id" name="event_id" style="display: none">
+            <input placeholder="Имя фамилия" type="text" id="event-name" name="event_name">
+            <input placeholder="Email" type="text" id="event-email" name="event_email">
+            <p id="warn"></p>
+            <button type="button" id="reg">Регистрация</button>
+        </form>
+        <div class="event-status" id="event-status">
+            <div>
+                <h2>Регистрация прошла успешно</h2>
+                <h3 id="close2">✕</h3>
+            </div>
+            <img id="qrImage" alt="QR Code" class="qrImage">
+            <p>Сохраните этот qr-код, это ваш билет на это событие</p>
+<!--            <p id="warn"></p>-->
+        </div>
+    </div>
+</div>
+<footer></footer>
+<script src="{% static 'js/main.jsx' %}"></script>
+</body>
+</html>

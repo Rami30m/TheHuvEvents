@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/lists.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <img src="{% static 'img/LOGO.png' %}" alt="logo" class="logo">
+    <h1>The Hub</h1>
+</header>
+<main>
+
+    {% for event in events %}
+    {% if forloop.first or forloop.counter0|divisibleby:3 %}
+    <div class="row">
+        {% endif %}
+        <div class="event"
+             data-event-id="{{ event.id }}"
+             data-title="{{ event.title }}" data-description="{{ event.description }}" data-date="{{ event.date }}"
+             data-location="{{ event.location }}">
+            <img src="{{ event.image.url }}" alt="event" class="event-img">
+            <div class="event-info">
+                <button class="event-btn" type="button" data-event-id="{{ event.id }}"
+                        onclick="location.href='{% url 'ShowCustomers' event.id %}'">Открыть</button>
+                            <p>👤{{ event.customers_count }}</p>
+            </div>
+
+
+
+        </div>
+        {% if forloop.last or forloop.counter|divisibleby:3 %}
+    </div>
+    {% endif %}
+    {% empty %}
+    {% endfor %}
+</main>
+<footer></footer>
+<script src="{% static 'js/main.jsx' %}"></script>
+</body>
+</html>

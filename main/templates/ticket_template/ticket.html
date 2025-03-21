@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    .event-status {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 10px;
+      display: block;
+      flex-direction: column;
+      gap: 10px;
+      font-family: 'Montserrat', sans-serif;
+      width: 500px;
+      height: 500px   ;
+    }
+
+    .event-status p {
+      text-align: center;
+    }
+
+    .event-status div h3 {
+      justify-self: right;
+      margin-top: -60px;
+      margin-bottom: -15px;
+      cursor: pointer;
+    }
+
+    .event-status div {
+      display: grid;
+    }
+
+    .event-status div h2 {
+      color: #000000;
+      text-align: center;
+      /*margin-top: -15px;*/
+      /*margin-bottom: -15px;*/
+    }
+
+    .qrImage {
+      justify-self: center;
+    }
+  </style>
+</head>
+<body>
+<div class="event-status" id="event-status">
+  <div>
+    <h2>Регистрация прошла успешно</h2>
+    <h3 id="close2">✕</h3>
+  </div>
+  <img id="qrImage" alt="QR Code" class="qrImage" src="{{ qrcode }}">
+  <p>Сохраните этот qr-код, это ваш билет на это событие</p>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <img src="{% static 'img/LOGO.png' %}" alt="logo" class="logo">
+    <div class="menu">
+        <h1>The Hub</h1>
+        <h2>Панель администратора</h2>
+    </div>
+    <button class="lists-btn" type="button" onclick="location.href='{% url 'lists' %}'">Списки участников</button>
+</header>
+<main>
+    <form action="{% url 'logout' %}" method="post" class="logout">
+        {% csrf_token %}
+        <button type="submit">Выйти</button>
+    </form>
+    <div class="row2">
+        <button class="addEvent" type="button" id="addEvent">
+            <img src="{% static 'img/AddE.png' %}" alt="addEvent">
+        </button>
+    </div>
+    <h2 class="text1">Текущие события</h2>
+
+    {% for event in events %}
+    {% if forloop.first or forloop.counter0|divisibleby:3 %}
+    <div class="row">
+        {% endif %}
+        <div class="event">
+            <img src="{{ event.image.url }}" alt="event" class="event-img">
+            <button class="warn-btn" type="button" id="{{ event.id }}">Удалить</button>
+        </div>
+        {% if forloop.last or forloop.counter|divisibleby:3 %}
+    </div>
+    {% endif %}
+    {% empty %}
+    {% endfor %}
+</main>
+<div class="addForm close" id="addForm">
+    <div class="EventForm">
+        <form action="{% url 'admin-panel' %}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+                <h2>Создать ивент</h2>
+                <h3 id="close">✕</h3>
+            </div>
+            <label for="title">Заголовок:</label>
+            <input id="title" type="text" name="title">
+
+            <label for="description">Описание ивента:</label>
+            <textarea id="description" name="description"></textarea>
+
+            <label for="date">Дата: (Опционально)</label>
+            <input id="date" type="date" name="date">
+
+            <label for="location">Локация: (Опционально)</label>
+            <input id="location" type="text" name="location">
+
+            <label for="image">Изображение ивента:</label>
+            <label class="file">
+                <input id="image" type="file" class="file-input" multiple name="image">
+<!--                <span id="fileName">Выберите файл</span>-->
+            </label>
+
+            <button type="submit" id="submit">Создать событие</button>
+        </form>
+    </div>
+</div>
+<div class="deleteForm close" id="deleteForm">
+    <div class="Delete">
+        <p>Точно удалить?</p>
+        <div>
+            <button class="event-btn" type="button" data-event-id="{{ event.id }}" id="event-btn">Да</button>
+            <button class="No" type="button" id="No">Нет</button>
+        </div>
+    </div>
+</div>
+<footer></footer>
+<script src="{% static 'js/panel.jsx' %}"></script>
+</body>
+</html>
