@@ -5,7 +5,27 @@ from panel.models import Event, Customers
 from django.http import JsonResponse
 from django.core.mail import EmailMultiAlternatives, send_mail
 from django.template.loader import render_to_string
+import threading
+from django.contrib.auth.models import Group
+
+def create_groups():
+    Group.objects.get_or_create(name='Администраторы')
+    Group.objects.get_or_create(name='Операторы QR')
 # Create your views here.
+
+def send_email(email, qr_path):
+    msg2 = {'qrcode': qr_path}
+    html_content = render_to_string("ticket_template/ticket.html", msg2)
+
+    print('/n Отправленное письмо')
+    msg = EmailMultiAlternatives(
+        subject="Билет The HUB",
+        body="Ваш билет на мероприятие",
+        from_email="bighub.info@gmail.com",
+        to=[email]
+    )
+    msg.attach_alternative(html_content, "text/html")
+    msg.send()
 
 def index(request):
     if request.method == 'GET':
@@ -35,21 +55,9 @@ def index(request):
         qr_path = f"media/qrcodes/{customer.id}.png"
         qr.save(qr_path)
         # customers = Customers(event=event, name=name, email=Email)
+        email_send = threading.Thread(target=send_email, args=(email, qr_path))
+        email_send.start()
 
-        msg2 = {'qrcode': qr_path}
-        html_content = render_to_string("ticket_template/ticket.html", msg2)
-        # html_content = "<h1>Ваш билет на The HUB</h1><p>Вот ваш QR-код:</p>"
-        # print("Содержимое HTML-письма:\n", html_content)
-
-        print('/n Отправленное письмо')
-        msg = EmailMultiAlternatives(
-            subject="Билет The HUB",
-            body="Ваш билет на мероприятие",
-            from_email="bighub.info@gmail.com",
-            to=[email]
-        )
-        msg.attach_alternative(html_content, "text/html")
-        msg.send()
         # Customers.save()
 
         return JsonResponse({"success": True, "qr_code_url": f"/qrcodes/{customer.id}.png"})

@@ -67,7 +67,7 @@ document.getElementById('submit').addEventListener("click", function(e) {
             alert("Событие успешно добавлено!");
             location.reload();
         } else {
-            alert("Ошибка: " + data.error);
+            console.log("Ошибка: " + data.error);
         }
     })
         .catch(error => console.error("Ошибка:", error));

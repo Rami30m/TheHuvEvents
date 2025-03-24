@@ -16,7 +16,7 @@ document.querySelectorAll(".event-btn").forEach(function(eventCard) {
         let description = eventCard.dataset.description;
         let date = eventCard.dataset.date;
         let location = eventCard.dataset.location;
-
+        console.log(eventId, title, description, date, location);
         // Вставляем данные в форму
         document.getElementById("event-title").innerText = title;
         document.getElementById("event-description").innerText = description;
@@ -47,7 +47,6 @@ document.getElementById('reg').addEventListener("click", function() {
         body: JSON.stringify({ event_id: eventId, name: name, email: Email })
     }).then(response => response.json()).then(data => {
         if (data.success) {
-            alert("Successfully registered!");
             let form = document.getElementById('Form1')
             form.classList.add("сс");
 

@@ -3,12 +3,16 @@ import json
 from .models import Event, Customers
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import get_object_or_404, redirect
 from django.db.models import Count
 # Create your views here.
 
+def is_admin(user):
+    return user.groups.filter(name='Admins').exists()
+
 @login_required
+@user_passes_test(is_admin)
 def index(request):
     if request.method == 'GET':
         events = Event.objects.all()
@@ -43,6 +47,7 @@ def DeleteEvent(request):
 
 
 @login_required
+@user_passes_test(is_admin)
 def lists(request):
     if request.method == 'GET':
         # events = Event.objects.all()
@@ -52,6 +57,7 @@ def lists(request):
         return render(request, 'panel/lists.html', {"events": events})
 
 @login_required
+@user_passes_test(is_admin)
 def ShowCustomers(request, event_id):
     if request.method == 'GET':
         # events = Event.objects.all()
@@ -63,6 +69,7 @@ def ShowCustomers(request, event_id):
 
 
 @login_required
+@user_passes_test(is_admin)
 def change_status(request, event_id, customer_id):
     if request.method == 'POST':
         customer = get_object_or_404(Customers, id=customer_id, event_id=event_id)

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/control.css' %}">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+<header>
+    <h1>The Hub</h1>
+</header>
+<main>
+    <div class="control">
+        <div class="video-container">
+            <video id="qr-video" class="qr-video"></video>
+            <div class="qr-frame"></div>
+        </div>
+        <div class="btns">
+            <p class="yet" id="yet">Уже отмечен</p>
+            <p class="success" id="success">Успешно отмечен</p>
+            <div class="status">
+                <div class="status_bar"><h2 class="customer" id="customer"></h2></div>
+                <button class="change" id="change">Отметить</button>
+            </div>
+            <div class="btns2">
+                <button id="play" class="play">Play</button>
+                <button id="stop" class="stop">Stop</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script src="{% static 'js/node_modules/qr-scanner/qr-scanner.umd.min.js' %}"></script>
+<script src="{% static 'js/control.jsx' %}" defer>
+    // import QrScanner from "{% static 'js/node_modules/qr-scanner/qr-scanner.min.js' %}";
+    //
+    // const videoElem = document.querySelector("video");
+    //
+    // const qrScanner = new QrScanner(
+    //     videoElem,
+    //     result => console.log('decoded qr code:', result)
+    // );
+    //
+    // document.getElementById('play').addEventListener('click', () => {
+    //     qrScanner.start();
+    // });
+</script>
+</body>
+</html>

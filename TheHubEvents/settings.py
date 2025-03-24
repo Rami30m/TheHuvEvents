@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-^1wf0!6x2v6=xi35vi(gi!65@k*9v7zf(dd#t+ig-$1lp1l+nq
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.10.4', '127.0.0.1']
 
 LOGIN_URL = "/admin-panel/login/"
 LOGIN_REDIRECT_URL = "/admin-panel/"
@@ -42,7 +42,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main',
-    'panel'
+    'panel',
+    'control',
+    'sslserver'
 ]
 
 MIDDLEWARE = [
